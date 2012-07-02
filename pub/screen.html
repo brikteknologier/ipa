@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+	<title>IPA!</title>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore-min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+  <script>
+    (function(sio) {
+      var io = sio.connect();
+      window.addEventListener('DOMContentLoaded', function() {
+        var template = _.template(document.getElementById('log-item-template').innerHTML);
+        var log = document.getElementById('log');
+
+        io.on('log', function(logData) {
+          console.log(logData)
+          log.innerHTML = template(logData) + log.innerHTML;
+        })
+
+        window.glog = function(message) {
+          io.emit('mlog', {text: message});
+        };
+      }, false)
+    })(io)
+	</script>
+</head>
+<body>
+  <script type="text/template" id="log-item-template">
+    <div class='log-item'>
+      <%= text %>
+    </div>
+  </script>
+  <h1>BRIK Log</h1>
+  <div id="log">
+  </div>
+</body>
+</html>

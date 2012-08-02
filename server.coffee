@@ -22,5 +22,5 @@ app.post '/log', (req, res) ->
   events.emit 'log', req.body
   res.send 200
 
-app.post '/sound/:sound', (req, res) ->
-  play(req.params.sound)
+app.get '/sound/:sound', (req, res) ->
+  play("./sounds/#{req.params.sound}")

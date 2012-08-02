@@ -4,6 +4,7 @@ app = express.createServer()
 io = require('socket.io').listen(app)
 pubdir = "#{__dirname}/pub"
 events = new Emitter
+play = require('play').sound
 
 app.use express.bodyParser()
 app.listen 4567
@@ -20,3 +21,6 @@ app.get '/', (req, res) ->
 app.post '/log', (req, res) ->
   events.emit 'log', req.body
   res.send 200
+
+app.post '/sound/:sound', (req, res) ->
+  play(req.params.sound)
